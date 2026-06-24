@@ -332,7 +332,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ----- Modal Storytelling & Details -----
+  // ----- Modal Storytelling, Details & Slideshow -----
+  let currentSlideIndex = 0;
+  let modalSlides = [];
+
+  const goToSlide = (index) => {
+    const slidesContainer = document.getElementById('modal-slides-container');
+    const dotsContainer = document.getElementById('modal-dots');
+    if (!slidesContainer || !dotsContainer || modalSlides.length === 0) return;
+
+    // Wrap around index
+    currentSlideIndex = (index + modalSlides.length) % modalSlides.length;
+
+    const slides = slidesContainer.querySelectorAll('.luxury-modal__slide');
+    const dots = dotsContainer.querySelectorAll('.luxury-modal__dot');
+
+    slides.forEach((slide, idx) => {
+      if (idx === currentSlideIndex) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
+
+    dots.forEach((dot, idx) => {
+      if (idx === currentSlideIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  };
+
+  const nextSlide = () => goToSlide(currentSlideIndex + 1);
+  const prevSlide = () => goToSlide(currentSlideIndex - 1);
+
   const openProjectModal = (item) => {
     if (!modal) return;
 
@@ -341,22 +375,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const location = item.getAttribute('data-location');
     const year = item.getAttribute('data-year');
     const size = item.getAttribute('data-size') || '-';
+    const overview = item.getAttribute('data-overview') || '-';
     const challenge = item.getAttribute('data-challenge');
     const solution = item.getAttribute('data-solution');
-    const result = item.getAttribute('data-result');
-    const imgSrc = item.querySelector('img').getAttribute('src');
+    const materials = item.getAttribute('data-materials') || '-';
+    const outcome = item.getAttribute('data-outcome') || '-';
+    const slidesStr = item.getAttribute('data-slides') || '';
 
-    // Populate modal fields
-    document.getElementById('modal-img').setAttribute('src', imgSrc);
-    document.getElementById('modal-img').setAttribute('alt', name);
+    // Populate modal text fields
     document.getElementById('modal-cat').textContent = category;
     document.getElementById('modal-title').textContent = name;
     document.getElementById('modal-loc').textContent = location;
     document.getElementById('modal-year').textContent = year;
     document.getElementById('modal-size').textContent = size;
+    document.getElementById('modal-overview').textContent = overview;
     document.getElementById('modal-challenge').textContent = challenge;
     document.getElementById('modal-solution').textContent = solution;
-    document.getElementById('modal-result').textContent = result;
+    document.getElementById('modal-materials').textContent = materials;
+    document.getElementById('modal-outcome').textContent = outcome;
+
+    // Handle Slideshow
+    const slidesContainer = document.getElementById('modal-slides-container');
+    const dotsContainer = document.getElementById('modal-dots');
+
+    if (slidesContainer && dotsContainer) {
+      slidesContainer.innerHTML = '';
+      dotsContainer.innerHTML = '';
+
+      modalSlides = slidesStr ? slidesStr.split(',') : [];
+      if (modalSlides.length === 0) {
+        const mainImg = item.querySelector('img').getAttribute('src');
+        modalSlides.push(mainImg);
+      }
+
+      modalSlides.forEach((slideSrc, index) => {
+        const img = document.createElement('img');
+        img.src = slideSrc;
+        img.alt = `${name} - Slide ${index + 1}`;
+        img.className = 'luxury-modal__slide';
+        if (index === 0) img.classList.add('active');
+        slidesContainer.appendChild(img);
+
+        const dot = document.createElement('span');
+        dot.className = 'luxury-modal__dot';
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+      });
+
+      currentSlideIndex = 0;
+    }
 
     // Show modal
     modal.classList.add('open');
@@ -385,12 +453,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Bind slide arrows
+  const prevArrow = document.getElementById('modal-prev');
+  const nextArrow = document.getElementById('modal-next');
+  if (prevArrow) prevArrow.addEventListener('click', prevArrowClick => {
+    prevArrowClick.stopPropagation();
+    prevSlide();
+  });
+  if (nextArrow) nextArrow.addEventListener('click', nextArrowClick => {
+    nextArrowClick.stopPropagation();
+    nextSlide();
+  });
+
   if (modalClose) modalClose.addEventListener('click', closeProjectModal);
   if (modalBackdrop) modalBackdrop.addEventListener('click', closeProjectModal);
 
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
-      closeProjectModal();
+    if (modal && modal.classList.contains('open')) {
+      if (e.key === 'Escape') {
+        closeProjectModal();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
     }
   });
 
@@ -479,20 +565,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ----- Animated Stat Counters -----
-  const statElements = document.querySelectorAll('.hero__stat-number');
-  let statsAnimated = false;
-
   const animateCounter = (element) => {
-    const text = element.textContent.trim();
-    const match = text.match(/(\d+)/);
-    if (!match) return;
+    const targetAttr = element.getAttribute('data-target');
+    const target = targetAttr ? parseInt(targetAttr, 10) : 0;
+    const prefix = element.getAttribute('data-prefix') || '';
+    const suffix = element.getAttribute('data-suffix') || '';
 
-    const target = parseInt(match[0]);
-    const suffix = text.replace(match[0], '').trim();
-    const prefix = text.substring(0, text.indexOf(match[0]));
+    if (!targetAttr) {
+      const text = element.textContent.trim();
+      const match = text.match(/(\d+)/);
+      if (!match) return;
+      const targetVal = parseInt(match[0]);
+      const suffVal = text.replace(match[0], '').trim();
+      const prefVal = text.substring(0, text.indexOf(match[0]));
+      runAnimation(element, targetVal, prefVal, suffVal);
+    } else {
+      runAnimation(element, target, prefix, suffix);
+    }
+  };
+
+  const runAnimation = (element, target, prefix, suffix) => {
     const duration = 2000;
     const startTime = performance.now();
-
     const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
 
     const update = (currentTime) => {
@@ -506,26 +600,46 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progress < 1) {
         requestAnimationFrame(update);
       } else {
-        element.textContent = text;
+        element.textContent = prefix + target + suffix;
       }
     };
-
     requestAnimationFrame(update);
   };
 
-  const statsObserver = new IntersectionObserver((entries) => {
+  // Observe hero stats
+  const heroStatElements = document.querySelectorAll('.hero__stat-number');
+  let heroStatsAnimated = false;
+  const heroStatsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !statsAnimated) {
-        statsAnimated = true;
-        statElements.forEach(stat => animateCounter(stat));
-        statsObserver.unobserve(entry.target);
+      if (entry.isIntersecting && !heroStatsAnimated) {
+        heroStatsAnimated = true;
+        heroStatElements.forEach(stat => animateCounter(stat));
+        heroStatsObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
 
-  if (statElements.length > 0) {
-    const statsContainer = statElements[0].closest('.hero__stats');
-    if (statsContainer) statsObserver.observe(statsContainer);
+  if (heroStatElements.length > 0) {
+    const heroStatsContainer = heroStatElements[0].closest('.hero__stats');
+    if (heroStatsContainer) heroStatsObserver.observe(heroStatsContainer);
+  }
+
+  // Observe dedicated stats section
+  const sectionStatElements = document.querySelectorAll('.stat-card__number');
+  let sectionStatsAnimated = false;
+  const sectionStatsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !sectionStatsAnimated) {
+        sectionStatsAnimated = true;
+        sectionStatElements.forEach(stat => animateCounter(stat));
+        sectionStatsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const statsSection = document.getElementById('statistics');
+  if (statsSection) {
+    sectionStatsObserver.observe(statsSection);
   }
 
   // ----- Contact Form Handling -----
@@ -587,5 +701,83 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.addEventListener('scroll', highlightNav, { passive: true });
+
+  // ----- Interactive Cost Estimator Logic -----
+  const estimatorRoomGrid = document.getElementById('estimator-room-type');
+  const estimatorStyleGrid = document.getElementById('estimator-design-style');
+  const estimatorAreaSlider = document.getElementById('estimator-area-slider');
+  const estimatorAreaDisplay = document.getElementById('estimator-area-display');
+  const estimatorBudgetRange = document.getElementById('estimator-budget-range');
+
+  if (estimatorRoomGrid && estimatorStyleGrid && estimatorAreaSlider && estimatorAreaDisplay && estimatorBudgetRange) {
+    let selectedRoom = 'living-room';
+    let selectedStyle = 'modern-luxury';
+    let areaSize = parseInt(estimatorAreaSlider.value, 10);
+
+    const roomRates = {
+      'living-room': 1200,
+      'bedroom': 1000,
+      'kitchen': 1800,
+      'office': 900,
+      'full-apartment': 1500,
+      'luxury-villa': 2200
+    };
+
+    const styleMultipliers = {
+      'modern-luxury': 1.5,
+      'contemporary': 1.2,
+      'scandinavian': 1.0,
+      'minimalist': 1.1,
+      'industrial': 1.1,
+      'japandi': 1.25
+    };
+
+    const calculateBudget = () => {
+      const baseRate = roomRates[selectedRoom] || 1200;
+      const multiplier = styleMultipliers[selectedStyle] || 1.5;
+      const baseCost = areaSize * baseRate * multiplier; // in ₹
+
+      // Divide by 100,000 to get in Lakhs (L)
+      const lowCostLakhs = (baseCost * 0.9) / 100000;
+      const highCostLakhs = (baseCost * 1.15) / 100000;
+
+      const lowStr = lowCostLakhs.toFixed(1);
+      const highStr = highCostLakhs.toFixed(1);
+
+      estimatorBudgetRange.textContent = `₹${lowStr}L - ₹${highStr}L`;
+    };
+
+    // Bind Room Type choices
+    const roomButtons = estimatorRoomGrid.querySelectorAll('.estimator__option');
+    roomButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        roomButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedRoom = btn.getAttribute('data-value');
+        calculateBudget();
+      });
+    });
+
+    // Bind Design Style choices
+    const styleButtons = estimatorStyleGrid.querySelectorAll('.estimator__option');
+    styleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        styleButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedStyle = btn.getAttribute('data-value');
+        calculateBudget();
+      });
+    });
+
+    // Bind Area Slider
+    estimatorAreaSlider.addEventListener('input', (e) => {
+      areaSize = parseInt(e.target.value, 10);
+      estimatorAreaDisplay.textContent = `${areaSize.toLocaleString('en-US')} sq ft`;
+      calculateBudget();
+    });
+
+    // Run initial calculation
+    calculateBudget();
+  }
 
 });
