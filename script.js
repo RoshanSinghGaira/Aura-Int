@@ -34,106 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ----- Custom Luxury Cursor & Spotlight -----
-  const cursorDot = document.getElementById('cursor-dot');
-  const cursorRing = document.getElementById('cursor-ring');
-  const spotlight = document.getElementById('mouse-spotlight');
-
-  let mouseX = 0, mouseY = 0;
-  let ringX = 0, ringY = 0;
-  let spotlightTimeout;
-
-  if (cursorDot && cursorRing) {
-    document.body.classList.add('custom-cursor-active');
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      // Activate cursor elements
-      cursorDot.classList.add('active');
-      cursorRing.classList.add('active');
-
-      // Dot is instant
-      cursorDot.style.left = `${mouseX}px`;
-      cursorDot.style.top = `${mouseY}px`;
-
-      // Update spotlight
-      if (spotlight) {
-        document.body.classList.add('mouse-moving');
-        document.documentElement.style.setProperty('--mouse-x', `${mouseX}px`);
-        document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`);
-      }
-
-      // Reset mouse-moving class after inactivity
-      clearTimeout(spotlightTimeout);
-      spotlightTimeout = setTimeout(() => {
-        document.body.classList.remove('mouse-moving');
-      }, 1000);
-    });
-
-    document.addEventListener('mouseleave', () => {
-      cursorDot.classList.remove('active');
-      cursorRing.classList.remove('active');
-    });
-
-    // Custom Cursor LERP Animation Loop
-    const renderCursor = () => {
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
-      cursorRing.style.left = `${ringX}px`;
-      cursorRing.style.top = `${ringY}px`;
-      requestAnimationFrame(renderCursor);
-    };
-    requestAnimationFrame(renderCursor);
-
-    // Dynamic Hover States for Interactive Elements
-    const addCursorHover = (elements, text = '', className = 'hover') => {
-      elements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          cursorRing.classList.add(className);
-          if (text) cursorRing.setAttribute('data-cursor-text', text);
-        });
-        el.addEventListener('mouseleave', () => {
-          cursorRing.classList.remove(className);
-          cursorRing.removeAttribute('data-cursor-text');
-        });
-      });
-    };
-
-    // Apply interactive cursor behaviors
-    const interactiveElements = document.querySelectorAll('a, button, select, .portfolio__filter, .contact__info-card, .service-card, .why-card');
-    addCursorHover(interactiveElements, 'VIEW');
-
-    const textureCards = document.querySelectorAll('.material-card');
-    addCursorHover(textureCards, 'TOUCH');
-
-    const roomHotspots = document.querySelectorAll('.room-explorer__hotspot');
-    addCursorHover(roomHotspots, 'EXPLORE');
-
-    const portfolioMasonryItems = document.querySelectorAll('.portfolio__editorial-item');
-    addCursorHover(portfolioMasonryItems, 'STORY');
-
-    const beforeAfterSlider = document.querySelectorAll('.before-after__handle');
-    addCursorHover(beforeAfterSlider, 'DRAG', 'drag');
-  }
-
-  // ----- Magnetic Buttons Interaction -----
-  const magneticButtons = document.querySelectorAll('.btn--accent, .btn--white, .navbar__logo, .navbar__toggle');
-  magneticButtons.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-
-      // Pull element slightly towards cursor
-      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-    });
-
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = '';
-    });
-  });
+  // Custom luxury cursor, spotlight, and magnetic button effects were removed to restore the default system mouse cursor and improve performance.
 
   // ----- Navbar Scroll Behavior -----
   const navbar = document.getElementById('navbar');
@@ -319,35 +220,35 @@ document.addEventListener('DOMContentLoaded', () => {
     hotspots.forEach(h => h.classList.remove('active'));
   });
 
-  // ----- Horizontal Scroll Showcase -----
-  const hsSection = document.querySelector('.horizontal-showcase');
-  const hsSticky = document.querySelector('.horizontal-showcase__sticky');
-  const hsContainer = document.querySelector('.horizontal-showcase__container');
+  // ----- Scroll Progress Indicator -----
+  const scrollProgress = document.getElementById('scroll-progress');
+  if (scrollProgress) {
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      scrollProgress.style.width = `${scrolled}%`;
+    }, { passive: true });
+  }
 
-  if (hsSection && hsSticky && hsContainer) {
-    const updateHorizontalScroll = () => {
-      const rect = hsSection.getBoundingClientRect();
-      const sectionHeight = rect.height;
-      const stickyHeight = hsSticky.offsetHeight;
-      const containerWidth = hsContainer.scrollWidth;
-      const viewportWidth = window.innerWidth;
-
-      const maxScroll = sectionHeight - stickyHeight;
-      const currentScroll = -rect.top;
-
-      if (currentScroll >= 0 && currentScroll <= maxScroll) {
-        const progress = currentScroll / maxScroll;
-        const translateX = progress * (containerWidth - viewportWidth + 80);
-        hsContainer.style.transform = `translateX(-${translateX}px)`;
-      } else if (currentScroll < 0) {
-        hsContainer.style.transform = `translateX(0px)`;
-      } else {
-        hsContainer.style.transform = `translateX(-${containerWidth - viewportWidth + 80}px)`;
+  // ----- Signature Designs Slider -----
+  const sigPrev = document.querySelector('.signature-slider__btn--prev');
+  const sigNext = document.querySelector('.signature-slider__btn--next');
+  const sigContainer = document.querySelector('.signature-slider__container');
+  if (sigPrev && sigNext && sigContainer) {
+    const getScrollAmt = () => {
+      const cards = sigContainer.querySelectorAll('.signature-slider__project');
+      if (cards.length > 0) {
+        return cards[0].offsetWidth + 32; // card width + gap
       }
+      return 300;
     };
-
-    window.addEventListener('scroll', updateHorizontalScroll, { passive: true });
-    window.addEventListener('resize', updateHorizontalScroll);
+    sigPrev.addEventListener('click', () => {
+      sigContainer.scrollBy({ left: -getScrollAmt(), behavior: 'smooth' });
+    });
+    sigNext.addEventListener('click', () => {
+      sigContainer.scrollBy({ left: getScrollAmt(), behavior: 'smooth' });
+    });
   }
 
   // ----- Blueprint to Reality Wipe -----
@@ -373,46 +274,65 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateBlueprintWipe, { passive: true });
   }
 
-  // ----- Editorial Portfolio Filter & Modal Storytelling -----
+  // ----- Combined Portfolio Search & Category Filtering -----
+  const searchInput = document.getElementById('portfolio-search');
   const filterButtons = document.querySelectorAll('.portfolio__filter');
   const portfolioItems = document.querySelectorAll('.portfolio__editorial-item');
   const modal = document.getElementById('luxury-modal');
   const modalClose = document.getElementById('modal-close');
   const modalBackdrop = document.getElementById('modal-backdrop');
 
-  // filtering
+  let activeCategory = 'all';
+  let searchQuery = '';
+
+  const filterProjects = () => {
+    portfolioItems.forEach(item => {
+      const category = item.getAttribute('data-category');
+      const name = (item.getAttribute('data-project-name') || '').toLowerCase();
+      const location = (item.getAttribute('data-location') || '').toLowerCase();
+      const categoryName = (item.getAttribute('data-category-name') || '').toLowerCase();
+
+      const matchesCategory = (activeCategory === 'all' || category === activeCategory);
+      const matchesSearch = !searchQuery ||
+        name.includes(searchQuery) ||
+        location.includes(searchQuery) ||
+        categoryName.includes(searchQuery);
+
+      if (matchesCategory && matchesSearch) {
+        item.style.display = '';
+        requestAnimationFrame(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'scale(1)';
+        });
+      } else {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          if (item.style.opacity === '0') {
+            item.style.display = 'none';
+          }
+        }, 300);
+      }
+    });
+  };
+
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       filterButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
-
-      const filterValue = button.getAttribute('data-filter');
-
-      portfolioItems.forEach(item => {
-        const itemCategory = item.getAttribute('data-category');
-        if (filterValue === 'all' || itemCategory === filterValue) {
-          item.style.display = '';
-          item.style.opacity = '0';
-          item.style.transform = 'scale(0.96)';
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-              item.style.opacity = '1';
-              item.style.transform = 'scale(1)';
-            });
-          });
-        } else {
-          item.style.opacity = '0';
-          item.style.transform = 'scale(0.96)';
-          setTimeout(() => {
-            item.style.display = 'none';
-          }, 380);
-        }
-      });
+      activeCategory = button.getAttribute('data-filter') || 'all';
+      filterProjects();
     });
   });
 
-  // Modal Functionality
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      filterProjects();
+    });
+  }
+
+  // ----- Modal Storytelling & Details -----
   const openProjectModal = (item) => {
     if (!modal) return;
 
@@ -420,6 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const category = item.getAttribute('data-category-name') || item.getAttribute('data-category');
     const location = item.getAttribute('data-location');
     const year = item.getAttribute('data-year');
+    const size = item.getAttribute('data-size') || '-';
     const challenge = item.getAttribute('data-challenge');
     const solution = item.getAttribute('data-solution');
     const result = item.getAttribute('data-result');
@@ -432,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-title').textContent = name;
     document.getElementById('modal-loc').textContent = location;
     document.getElementById('modal-year').textContent = year;
+    document.getElementById('modal-size').textContent = size;
     document.getElementById('modal-challenge').textContent = challenge;
     document.getElementById('modal-solution').textContent = solution;
     document.getElementById('modal-result').textContent = result;
@@ -451,11 +373,11 @@ document.addEventListener('DOMContentLoaded', () => {
     item.addEventListener('click', () => openProjectModal(item));
   });
 
-  // Bind horizontal scroll project items to the modal
-  const hsProjects = document.querySelectorAll('.horizontal-showcase__project');
-  hsProjects.forEach(item => {
+  // Bind signature slider project items to the modal
+  const sigProjects = document.querySelectorAll('.signature-slider__project');
+  sigProjects.forEach(item => {
     item.addEventListener('click', () => {
-      const projectName = item.querySelector('.horizontal-showcase__title').textContent;
+      const projectName = item.querySelector('.signature-slider__title').textContent;
       const matchingItem = Array.from(portfolioItems).find(p => p.getAttribute('data-project-name') === projectName);
       if (matchingItem) {
         openProjectModal(matchingItem);
@@ -470,6 +392,90 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
       closeProjectModal();
     }
+  });
+
+  // ----- Testimonials Auto Slider -----
+  const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+  const testimonialDots = document.querySelectorAll('.testimonials__dot');
+  const testimonialPrev = document.querySelector('.testimonials__btn--prev');
+  const testimonialNext = document.querySelector('.testimonials__btn--next');
+  const testimonialsWrapper = document.querySelector('.testimonials__slider-wrapper');
+
+  if (testimonialSlides.length > 0) {
+    let currentSlide = 0;
+    let slideInterval;
+
+    const showSlide = (index) => {
+      testimonialSlides.forEach(slide => slide.classList.remove('active'));
+      testimonialDots.forEach(dot => dot.classList.remove('active'));
+
+      currentSlide = (index + testimonialSlides.length) % testimonialSlides.length;
+      testimonialSlides[currentSlide].classList.add('active');
+      if (testimonialDots[currentSlide]) {
+        testimonialDots[currentSlide].classList.add('active');
+      }
+    };
+
+    const nextSlide = () => {
+      showSlide(currentSlide + 1);
+    };
+
+    const prevSlide = () => {
+      showSlide(currentSlide - 1);
+    };
+
+    const startAutoSlide = () => {
+      stopAutoSlide();
+      slideInterval = setInterval(nextSlide, 5000);
+    };
+
+    const stopAutoSlide = () => {
+      if (slideInterval) clearInterval(slideInterval);
+    };
+
+    if (testimonialPrev) testimonialPrev.addEventListener('click', prevSlide);
+    if (testimonialNext) testimonialNext.addEventListener('click', nextSlide);
+
+    testimonialDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.getAttribute('data-index'), 10);
+        showSlide(idx);
+      });
+    });
+
+    if (testimonialsWrapper) {
+      testimonialsWrapper.addEventListener('mouseenter', stopAutoSlide);
+      testimonialsWrapper.addEventListener('mouseleave', startAutoSlide);
+    }
+
+    startAutoSlide();
+  }
+
+  // ----- FAQ Accordion -----
+  const faqQuestions = document.querySelectorAll('.faq__question');
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.parentNode;
+      const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+      // Close all other FAQ items for a clean accordion effect
+      document.querySelectorAll('.faq__item').forEach(i => {
+        if (i !== item) {
+          i.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
+          const ans = i.querySelector('.faq__answer');
+          ans.style.maxHeight = null;
+        }
+      });
+
+      // Toggle current item
+      question.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+      const answer = item.querySelector('.faq__answer');
+      if (!isExpanded) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.style.maxHeight = null;
+      }
+    });
   });
 
   // ----- Animated Stat Counters -----

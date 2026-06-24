@@ -30,6 +30,22 @@
 
 <body>
 
+  <!-- ======== SCROLL PROGRESS INDICATOR ======== -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- ======== BACKGROUND FLOATING ARCHITECTURAL LINES ======== -->
+  <div class="architectural-bg-lines" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path d="M 5 5 H 95 V 95 H 5 Z" fill="none" stroke="currentColor" stroke-width="0.05" />
+      <path d="M 25 5 V 95" fill="none" stroke="currentColor" stroke-width="0.05" />
+      <path d="M 70 5 V 95" fill="none" stroke="currentColor" stroke-width="0.05" />
+      <path d="M 5 35 H 95" fill="none" stroke="currentColor" stroke-width="0.05" />
+      <path d="M 5 65 H 95" fill="none" stroke="currentColor" stroke-width="0.05" />
+      <circle cx="25" cy="35" r="1" fill="none" stroke="currentColor" stroke-width="0.05" />
+      <circle cx="70" cy="65" r="1" fill="none" stroke="currentColor" stroke-width="0.05" />
+    </svg>
+  </div>
+
   <!-- ======== PRELOADER ======== -->
   <div class="preloader" id="preloader">
     <div class="preloader__content">
@@ -40,11 +56,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ======== LUXURY CURSOR & RADIAL LIGHT SPOTLIGHT ======== -->
-  <div class="luxury-cursor-dot" id="cursor-dot"></div>
-  <div class="luxury-cursor-ring" id="cursor-ring"></div>
-  <div class="mouse-spotlight" id="mouse-spotlight"></div>
 
   <!-- ======== NAVIGATION ======== -->
   <nav class="navbar" id="navbar">
@@ -95,7 +106,7 @@
           </div>
           <div class="hero__stat">
             <div class="hero__stat-number">98%</div>
-            <div class="hero__stat-text">Client Satisfaction</div>
+            <div class="hero__stat-text">Happy Clients</div>
           </div>
           <div class="hero__stat">
             <div class="hero__stat-number">8+</div>
@@ -378,11 +389,23 @@
         <button class="portfolio__filter" data-filter="apartment">Apartment</button>
       </div>
 
+      <div class="portfolio__search-wrapper reveal">
+        <div class="portfolio__search-input-box">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" class="portfolio__search-icon">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="portfolio-search" placeholder="Search projects by name, location..."
+            aria-label="Search projects">
+        </div>
+      </div>
+
       <div class="portfolio__grid-editorial">
         <!-- Project 1: Serene Living Space -->
         <div class="portfolio__editorial-item portfolio__editorial-item--span-8 reveal" data-category="living-room"
           data-project-name="Serene Living Space" data-category-name="Living Room" data-location="Bandra, Mumbai"
-          data-year="2024"
+          data-year="2024" data-size="1,200 sq ft"
           data-challenge="The client wanted to convert a dark, closed living area into a bright, social space that reflects natural light and coordinates luxury seating without feeling cluttered."
           data-solution="We knocked down partition walls to invite a light-filled open plan, using a palette of white oak, linen drapery, and a custom Calacatta marble television console as a focus point."
           data-result="A stunning, breathing social room that feels massive yet grounded, maximizing Bandra's coastal breeze and natural daylight.">
@@ -390,6 +413,11 @@
           <div class="portfolio__editorial-overlay">
             <span class="portfolio__editorial-cat">Living Room</span>
             <h3 class="portfolio__editorial-title">Serene Living Space</h3>
+            <div class="portfolio__editorial-details">
+              <span class="portfolio__editorial-loc">Bandra, Mumbai</span>
+              <span class="portfolio__editorial-divider">/</span>
+              <span class="portfolio__editorial-size">1,200 sq ft</span>
+            </div>
           </div>
         </div>
 
@@ -397,7 +425,7 @@
         <div
           class="portfolio__editorial-item portfolio__editorial-item--span-4 portfolio__editorial-item--offset-down reveal"
           data-category="bedroom" data-project-name="Tranquil Retreat" data-category-name="Bedroom"
-          data-location="Alibaug, Maharashtra" data-year="2023"
+          data-location="Alibaug, Maharashtra" data-year="2023" data-size="800 sq ft"
           data-challenge="A busy executive couple required a master bedroom that functions as a silent sanctuary, shutting out the external noise while incorporating warm natural textures."
           data-solution="We insulated the walls and installed double-glazed minimal frame windows. The layout features floating walnut bedside tables, a bespoke linen-padded headboard, and indirect architectural lighting."
           data-result="A cozy, soundproof master suite that provides optimal rest, evoking the sensory calm of a premium boutique wellness resort.">
@@ -405,6 +433,11 @@
           <div class="portfolio__editorial-overlay">
             <span class="portfolio__editorial-cat">Bedroom</span>
             <h3 class="portfolio__editorial-title">Tranquil Retreat</h3>
+            <div class="portfolio__editorial-details">
+              <span class="portfolio__editorial-loc">Alibaug, MH</span>
+              <span class="portfolio__editorial-divider">/</span>
+              <span class="portfolio__editorial-size">800 sq ft</span>
+            </div>
           </div>
         </div>
 
@@ -412,7 +445,7 @@
         <div
           class="portfolio__editorial-item portfolio__editorial-item--span-4 portfolio__editorial-item--offset-right reveal"
           data-category="kitchen" data-project-name="Culinary Elegance" data-category-name="Kitchen"
-          data-location="Juhu, Mumbai" data-year="2024"
+          data-location="Juhu, Mumbai" data-year="2024" data-size="450 sq ft"
           data-challenge="A professional chef's private kitchen needing heavy duty layout flow and storage alongside a visually clean social dining zone."
           data-solution="We integrated professional-grade appliances flush into matte lacquered oak cabinetry, pairing them with an expansive Calacatta marble island and a dedicated pantry zone."
           data-result="A highly efficient culinary workhorse that transforms into a sleek, minimal entertainment bar for dinner guests at night.">
@@ -420,6 +453,11 @@
           <div class="portfolio__editorial-overlay">
             <span class="portfolio__editorial-cat">Kitchen</span>
             <h3 class="portfolio__editorial-title">Culinary Elegance</h3>
+            <div class="portfolio__editorial-details">
+              <span class="portfolio__editorial-loc">Juhu, Mumbai</span>
+              <span class="portfolio__editorial-divider">/</span>
+              <span class="portfolio__editorial-size">450 sq ft</span>
+            </div>
           </div>
         </div>
 
@@ -427,7 +465,7 @@
         <div
           class="portfolio__editorial-item portfolio__editorial-item--span-8 portfolio__editorial-item--offset-left reveal"
           data-category="office" data-project-name="Executive Suite" data-category-name="Office"
-          data-location="BKC, Mumbai" data-year="2023"
+          data-location="BKC, Mumbai" data-year="2023" data-size="600 sq ft"
           data-challenge="Designing a home office that commands authority during video calls while remaining comfortable for long deep work sessions."
           data-solution="We crafted custom wood shelving with integrated LED strips, a leather-inlay walnut desk, and balanced the room with linen upholstery and acoustic fluted panels."
           data-result="A refined work suite that blends professional executive aesthetics with cozy residential elements, promoting creativity and focus.">
@@ -435,13 +473,18 @@
           <div class="portfolio__editorial-overlay">
             <span class="portfolio__editorial-cat">Office</span>
             <h3 class="portfolio__editorial-title">Executive Suite</h3>
+            <div class="portfolio__editorial-details">
+              <span class="portfolio__editorial-loc">BKC, Mumbai</span>
+              <span class="portfolio__editorial-divider">/</span>
+              <span class="portfolio__editorial-size">600 sq ft</span>
+            </div>
           </div>
         </div>
 
         <!-- Project 5: Grand Villa -->
         <div class="portfolio__editorial-item portfolio__editorial-item--span-8 reveal" data-category="villa"
           data-project-name="Grand Villa Residence" data-category-name="Luxury Villa" data-location="Goa, India"
-          data-year="2024"
+          data-year="2024" data-size="3,500 sq ft"
           data-challenge="Creating an expansive living and dining area in a tropical villa that connects seamlessly to the outer deck without allowing moisture or heat to ruin the interior."
           data-solution="We selected high-durability treated teak wood, polished concrete floors, and custom brass frames, coupled with wide sliding pocket doors for seamless indoor-outdoor transition."
           data-result="A breathtaking, light-drenched tropical villa hall that opens to ocean views while staying cool, dry, and elegantly styled.">
@@ -449,6 +492,11 @@
           <div class="portfolio__editorial-overlay">
             <span class="portfolio__editorial-cat">Luxury Villa</span>
             <h3 class="portfolio__editorial-title">Grand Villa Residence</h3>
+            <div class="portfolio__editorial-details">
+              <span class="portfolio__editorial-loc">Goa, India</span>
+              <span class="portfolio__editorial-divider">/</span>
+              <span class="portfolio__editorial-size">3,500 sq ft</span>
+            </div>
           </div>
         </div>
 
@@ -456,7 +504,7 @@
         <div
           class="portfolio__editorial-item portfolio__editorial-item--span-4 portfolio__editorial-item--offset-down reveal"
           data-category="apartment" data-project-name="Urban Sophistication" data-category-name="Apartment"
-          data-location="Colaba, Mumbai" data-year="2023"
+          data-location="Colaba, Mumbai" data-year="2023" data-size="1,100 sq ft"
           data-challenge="A historic colonial apartment with low natural light and strict heritage layout restrictions that needed a modern luxury upgrade."
           data-solution="We painted wall surfaces in warm off-white shades, used reflective brass detailing, and curated low-profile elegant furniture to create a sense of vertical height."
           data-result="A masterful fusion of old-world charm and sleek modern luxury, making the apartment feel bright, spacious, and highly curated.">
@@ -464,6 +512,11 @@
           <div class="portfolio__editorial-overlay">
             <span class="portfolio__editorial-cat">Apartment</span>
             <h3 class="portfolio__editorial-title">Urban Sophistication</h3>
+            <div class="portfolio__editorial-details">
+              <span class="portfolio__editorial-loc">Colaba, Mumbai</span>
+              <span class="portfolio__editorial-divider">/</span>
+              <span class="portfolio__editorial-size">1,100 sq ft</span>
+            </div>
           </div>
         </div>
       </div>
@@ -471,42 +524,61 @@
   </section>
 
 
-  <!-- ======== HORIZONTAL SCROLL SHOWCASE ======== -->
-  <section class="horizontal-showcase">
-    <div class="horizontal-showcase__sticky">
-      <div class="horizontal-showcase__header">
-        <span class="section-label" style="color: var(--color-accent-light);">Curated Collections</span>
-        <h2 class="section-title" style="color: var(--color-white); margin-bottom: 0;">Signature Designs</h2>
+  <!-- ======== SIGNATURE DESIGNS GALLERY (NATURAL SCROLL) ======== -->
+  <section class="section signature-designs" id="signature">
+    <div class="container">
+      <div class="section-header section-header--center">
+        <span class="section-label">Curated Collections</span>
+        <h2 class="section-title">Signature Designs</h2>
+        <p class="section-subtitle">Browse our signature custom-built showcases by swiping or using the navigation
+          controls.</p>
       </div>
-      <div class="horizontal-showcase__container">
-        <div class="horizontal-showcase__project">
-          <img src="images/portfolio-living-room.png" alt="Serene Living Space" class="horizontal-showcase__image">
-          <div class="horizontal-showcase__info">
-            <h3 class="horizontal-showcase__title">Serene Living Space</h3>
-            <span class="horizontal-showcase__meta">Living Room | Bandra</span>
+
+      <div class="signature-slider__wrapper">
+        <button class="signature-slider__btn signature-slider__btn--prev" aria-label="Previous Slide">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="signature-slider__container">
+          <div class="signature-slider__project">
+            <img src="images/portfolio-living-room.png" alt="Serene Living Space" class="signature-slider__image">
+            <div class="signature-slider__info">
+              <h3 class="signature-slider__title">Serene Living Space</h3>
+              <span class="signature-slider__meta">Living Room | Bandra</span>
+            </div>
+          </div>
+          <div class="signature-slider__project">
+            <img src="images/portfolio-villa.png" alt="Grand Villa Residence" class="signature-slider__image">
+            <div class="signature-slider__info">
+              <h3 class="signature-slider__title">Grand Villa Residence</h3>
+              <span class="signature-slider__meta">Luxury Villa | Goa</span>
+            </div>
+          </div>
+          <div class="signature-slider__project">
+            <img src="images/portfolio-kitchen.png" alt="Culinary Elegance" class="signature-slider__image">
+            <div class="signature-slider__info">
+              <h3 class="signature-slider__title">Culinary Elegance</h3>
+              <span class="signature-slider__meta">Kitchen | Juhu</span>
+            </div>
+          </div>
+          <div class="signature-slider__project">
+            <img src="images/portfolio-bedroom.png" alt="Tranquil Retreat" class="signature-slider__image">
+            <div class="signature-slider__info">
+              <h3 class="signature-slider__title">Tranquil Retreat</h3>
+              <span class="signature-slider__meta">Bedroom | Alibaug</span>
+            </div>
           </div>
         </div>
-        <div class="horizontal-showcase__project">
-          <img src="images/portfolio-villa.png" alt="Grand Villa Residence" class="horizontal-showcase__image">
-          <div class="horizontal-showcase__info">
-            <h3 class="horizontal-showcase__title">Grand Villa Residence</h3>
-            <span class="horizontal-showcase__meta">Luxury Villa | Goa</span>
-          </div>
-        </div>
-        <div class="horizontal-showcase__project">
-          <img src="images/portfolio-kitchen.png" alt="Culinary Elegance" class="horizontal-showcase__image">
-          <div class="horizontal-showcase__info">
-            <h3 class="horizontal-showcase__title">Culinary Elegance</h3>
-            <span class="horizontal-showcase__meta">Kitchen | Juhu</span>
-          </div>
-        </div>
-        <div class="horizontal-showcase__project">
-          <img src="images/portfolio-bedroom.png" alt="Tranquil Retreat" class="horizontal-showcase__image">
-          <div class="horizontal-showcase__info">
-            <h3 class="horizontal-showcase__title">Tranquil Retreat</h3>
-            <span class="horizontal-showcase__meta">Bedroom | Alibaug</span>
-          </div>
-        </div>
+
+        <button class="signature-slider__btn signature-slider__btn--next" aria-label="Next Slide">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
@@ -736,125 +808,157 @@
         <p class="section-subtitle">Hear from homeowners and businesses who trusted us to transform their spaces.</p>
       </div>
 
-      <div class="testimonials__grid" data-stagger>
-        <div class="testimonial-card">
-          <div class="testimonial-card__stars">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
+      <div class="testimonials__slider-wrapper reveal">
+        <div class="testimonials__slider-container">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide active">
+            <div class="testimonial-card">
+              <div class="testimonial-card__stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+              </div>
+              <p class="testimonial-card__text">"Aura Interiors completely transformed our home. Their attention to
+                detail and ability to understand our lifestyle made the entire experience seamless. The result exceeded
+                every expectation."</p>
+              <div class="testimonial-card__author">
+                <div class="testimonial-card__avatar">R</div>
+                <div>
+                  <div class="testimonial-card__name">Rajesh Mehta</div>
+                  <div class="testimonial-card__role">Homeowner, Mumbai</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="testimonial-card__text">"Aura Interiors completely transformed our home. Their attention to detail
-            and ability to understand our lifestyle made the entire experience seamless. The result exceeded every
-            expectation."</p>
-          <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">R</div>
-            <div>
-              <div class="testimonial-card__name">Rajesh Mehta</div>
-              <div class="testimonial-card__role">Homeowner, Mumbai</div>
+
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="testimonial-card__stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+              </div>
+              <p class="testimonial-card__text">"Working with the Aura team on our corporate office was a truly
+                professional experience. They delivered a space that embodies our brand values while being incredibly
+                functional for our team."</p>
+              <div class="testimonial-card__author">
+                <div class="testimonial-card__avatar">P</div>
+                <div>
+                  <div class="testimonial-card__name">Priya Sharma</div>
+                  <div class="testimonial-card__role">CEO, TechVista Solutions</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="testimonial-card__stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                  </polygon>
+                </svg>
+              </div>
+              <p class="testimonial-card__text">"From the initial consultation to the final reveal, Aura Interiors
+                handled everything with grace and professionalism. Our villa feels like a luxury resort now. We could
+                not be happier."</p>
+              <div class="testimonial-card__author">
+                <div class="testimonial-card__avatar">A</div>
+                <div>
+                  <div class="testimonial-card__name">Ananya Patel</div>
+                  <div class="testimonial-card__role">Villa Owner, Goa</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="testimonial-card">
-          <div class="testimonial-card__stars">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
+        <!-- Slider Controls -->
+        <div class="testimonials__controls">
+          <button class="testimonials__btn testimonials__btn--prev" aria-label="Previous testimonial">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
+          </button>
+          <div class="testimonials__dots">
+            <span class="testimonials__dot active" data-index="0"></span>
+            <span class="testimonials__dot" data-index="1"></span>
+            <span class="testimonials__dot" data-index="2"></span>
           </div>
-          <p class="testimonial-card__text">"Working with the Aura team on our corporate office was a truly professional
-            experience. They delivered a space that embodies our brand values while being incredibly functional for our
-            team."</p>
-          <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">P</div>
-            <div>
-              <div class="testimonial-card__name">Priya Sharma</div>
-              <div class="testimonial-card__role">CEO, TechVista Solutions</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-card__stars">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
+          <button class="testimonials__btn testimonials__btn--next" aria-label="Next testimonial">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-          </div>
-          <p class="testimonial-card__text">"From the initial consultation to the final reveal, Aura Interiors handled
-            everything with grace and professionalism. Our villa feels like a luxury resort now. We could not be
-            happier."</p>
-          <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">A</div>
-            <div>
-              <div class="testimonial-card__name">Ananya Patel</div>
-              <div class="testimonial-card__role">Villa Owner, Goa</div>
-            </div>
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -951,6 +1055,73 @@
           <h3 class="why-card__title">End-to-End Support</h3>
           <p class="why-card__text">From concept to completion, we manage every detail so you can enjoy a stress-free
             experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======== FAQ SECTION ======== -->
+  <section class="section section--cream" id="faq">
+    <div class="container container--narrow">
+      <div class="section-header section-header--center">
+        <span class="section-label">Questions & Answers</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Find transparent answers about our design process, project management, timelines,
+          and budget compatibility.</p>
+      </div>
+
+      <div class="faq__accordion reveal">
+        <!-- FAQ 1 -->
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            <span>How does the design process work?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>Our process begins with an in-depth consultation to understand your style preferences and functional
+              needs. Following that, we create initial concept boards and spatial layouts. Once the design is approved,
+              we select premium materials and coordinate turnkey execution with our trusted execution team.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            <span>What is the project timeline?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>The timeline varies depending on the scale and complexity of the project. Typically, design concepts take
+              3-4 weeks, and execution takes 12-16 weeks for standard residential projects. We establish a clear,
+              detailed timeline before starting execution and provide regular updates throughout the process.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            <span>Do you handle turnkey projects?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>Yes, we specialize in turnkey interior design services. We manage the entire project lifecycle, including
+              concept creation, structural layout planning, material procurement, furniture customization, lighting,
+              decoration, site supervision, and handover. This ensures a stress-free experience for our clients.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">
+            <span>Can you work within my budget?</span>
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>Absolutely. We design and curate materials tailored to align with various investment scales. During our
+              initial consultation, we discuss budget expectations and prioritize sourcing strategies to ensure your
+              space meets our premium aesthetic standards without exceeding your investment plan.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1189,7 +1360,7 @@
 
   <!-- ======== FLOATING CTA ======== -->
   <div class="floating-cta" id="floating-cta">
-    <a href="#contact" class="btn btn--accent">Schedule a Consultation</a>
+    <a href="#contact" class="btn btn--accent">Book a Consultation</a>
   </div>
 
   <!-- ======== LUXURY PROJECT MODAL ======== -->
@@ -1213,6 +1384,7 @@
           <div class="luxury-modal__meta-grid">
             <div class="luxury-modal__meta-item">Location: <span id="modal-loc">Bandra, Mumbai</span></div>
             <div class="luxury-modal__meta-item">Year: <span id="modal-year">2024</span></div>
+            <div class="luxury-modal__meta-item">Size: <span id="modal-size">-</span></div>
           </div>
         </div>
         <div class="luxury-modal__story-grid">
